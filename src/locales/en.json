@@ -1,0 +1,71 @@
+{
+  "over": "OVER",
+  "under": "UNDER",
+  "roll": "ROLL",
+  "head": "HEAD",
+  "tail": "TAIL",
+
+  "links": {
+    "home": "LOBBY",
+    "home_mini_games": "MINI GAMES LOBBY",
+    "home_virtual_games": "VIRTUAL GAMES LOBBY"
+  },
+
+  "games": {
+    "flip": "FLIP",
+    "dice": "DICE",
+    "super-dice": "SUPER DICE",
+    "mini-games": "MINI GAMES",
+    "virtual-games": "VIRTUAL GAMES",
+    "other-games": "OTHER GAMES",
+    "ladder": "LADDER",
+    "daridari": "DARIDARI",
+    "power_ball": "POWER BALL",
+    "keno_ladder": "KENO LADDER",
+    "speed_keno": "SPEED KENO",
+    "power_ladder": "POWER LADDER",
+    "soccer_cup": "SOCCER CUP",
+    "basketball": "BASKETBALL",
+    "soccer_league": "SOCCER LEAGUE",
+    "tennis": "TENNIS",
+    "horses_race": "HORSES RACE",
+    "dogs_race": "DOGS RACE",
+    "soccer_world_cup": "SOCCER WORLD CUP",
+    "football_asian_cup": "FOOTBALL ASIAN CUP",
+    "football_euro_cup" : "FOOTBALL EURO CUP"
+  },
+
+  "gambling": {
+    "roll_under": "ROLL UNDER",
+    "roll_over": "ROLL OVER",
+    "roll_start": "ROLL {option} {value}",
+    "flip_start": "FLIP {option}",
+
+    "prediction": "PREDICTION",
+    "result_number": "RESULT",
+    "auto": "AUTO",
+    "off": "OFF"
+  },
+
+  "bet_option": {
+    "win_chance": "CHANCE",
+    "bet_amount": "BET AMOUNT",
+    "multiplier": "MULTIPLIER",
+    "payout_on_win": "PAYOUT",
+    "min": "MIN",
+    "max": "MAX"
+  },
+
+  "history": {
+    "all_bets": "ALL BETS",
+    "my_bets": "MY BETS",
+    "table": {
+      "player": "PLAYER",
+      "game": "GAME",
+      "prediction": "PREDICTION",
+      "result": "RESULT",
+      "stake": "STAKE",
+      "payout": "PAYOUT"
+    }
+  }
+}
