@@ -84,3 +84,29 @@
         methods: {}
     }
 </script>
+
+<style scoped>
+    .profile-container{
+        position: absolute;
+        top: 20px;
+        padding: 10px;
+        right: 20px;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
+        border-bottom: 1px solid rgb(255, 0, 25);
+        color: #fff;
+    }
+
+    .balance-container{
+        position: absolute;
+        bottom: 20px;
+        padding: 10px;
+        left: 20px;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        box-shadow: 10px 12px 17px rgba(29, 25, 25, 0.54);
+        border-bottom: 1px solid rgb(30, 24, 25);
+        color: #fff;
+    }
+</style>

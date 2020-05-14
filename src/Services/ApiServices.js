@@ -16,4 +16,14 @@ export class APIService{
             }
         }).then(response => response.data);
     }
+
+    gameTables(token) {
+        const url = `${API_URL}/api/get-game-tables`;
+
+        return axios.get(url, {
+            headers: {
+                Authorization: token
+            }
+        }).then(response => response);
+    }
 }
