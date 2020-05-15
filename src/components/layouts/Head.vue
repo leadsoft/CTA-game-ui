@@ -8,12 +8,20 @@
 
         <div class="balance-container">
             <b-row>
-                <b-col cols="12">{{ authUser.balance | currency(authUser.currency.toUpperCase(), 0, {
-                    symbolOnLeft: false,
-                    spaceBetweenAmountAndSymbol: true }) }}
+                <b-col cols="12">
+                    {{ authUser.balance | currency(authUser.currency,  0, { symbolOnLeft: false, spaceBetweenAmountAndSymbol: true }) }}
                 </b-col>
             </b-row>
         </div>
+
+        <div class="history-main-container">
+            <b-row>
+                <b-col cols="12">
+                    <img v-on:click="showHideHistory()" src="/images/history_white.png" alt="">
+                </b-col>
+            </b-row>
+        </div>
+
         <div class="home-button-group">
             <b-row>
                 <b-col cols="6" class="no-padding" v-show="showHomeLink">
@@ -32,17 +40,20 @@
                 </b-col>
             </b-row>
         </div>
+
     </div>
 </template>
 
 <script>
     import {mapGetters} from 'vuex'
+    import {serverBus} from '../../main';
 
     export default {
         name: 'Head',
 
         data() {
             return {
+                showHistory: false,
                 showHomeLink: !window.location.pathname.includes('dashboard'),
             }
         },
@@ -81,7 +92,13 @@
         components: {
 
         },
-        methods: {}
+        methods: {
+            showHideHistory() {
+                this.showHistory = !this.showHistory;
+                serverBus.$emit('showHistory', {showHideHistory: this.showHistory});
+
+            },
+        }
     }
 </script>
 
@@ -105,8 +122,25 @@
         left: 20px;
         border-bottom-right-radius: 20px;
         border-bottom-left-radius: 20px;
-        box-shadow: 10px 12px 17px rgba(29, 25, 25, 0.54);
-        border-bottom: 1px solid rgb(30, 24, 25);
+        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
+        border-bottom: 1px solid rgb(255, 0, 25);
         color: #fff;
+    }
+
+    .history-main-container{
+        position: absolute;
+        bottom: 20px;
+        padding: 10px;
+        right: 20px;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
+        border-bottom: 1px solid rgb(255, 0, 25);
+        cursor: pointer;
+    }
+
+    .history-main-container:hover{
+        box-shadow: 10px 12px 17px #f8f9fa12;
+        border-bottom: 1px solid #f8f9fa;
     }
 </style>

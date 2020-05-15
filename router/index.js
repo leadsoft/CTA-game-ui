@@ -2,8 +2,15 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import Dashboard from "../src/components/Dashboard";
 import store from '../src/store'
+import VueSlimScroll from 'vue-slimscroll'
+import Vue2Filters from 'vue2-filters'
+import _ from 'lodash';
+import SmoothScrollbar from 'vue-smooth-scrollbar'
 
+Vue.use(SmoothScrollbar)
+Vue.use(VueSlimScroll)
 Vue.use(VueRouter);
+Vue.use(Vue2Filters)
 
 const router = new VueRouter({
     mode: 'history',
