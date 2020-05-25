@@ -3,6 +3,51 @@
         <b-container class="bv-example-row">
             <b-row class="text-center" :class="{'justify-content-md-center': !test}">
                 <b-col :cols="mainCols" :class="{'test-123': test}" class="margin-px-0 mt-5 games-container">
+                    <b-list-group-item href="#"
+                                       class="flex-column align-items-start">
+                        <div class="p-1 d-flex w-100 justify-content-between">
+                            <b-row class="w-100">
+                                <b-col cols="3" class="px-0">
+                                    <div class="title-container" v-on:click="doSort('name')">
+                                        <p class="mb-1 inline-container"><b>Table Name</b></p>
+                                        <img src="/images/sort.png"/>
+                                    </div>
+                                </b-col>
+
+                                <b-col cols="1" class="px-0">
+                                    <div class="connected-players-container">
+                                        <p class="mb-1 inline-container"><b>P. No.</b></p>
+                                        <img src="/images/sort.png"/>
+                                    </div>
+                                </b-col>
+
+                                <b-col cols="2" class="px-0">
+                                    <div class="jackpot-container">
+                                        <p class="mb-1 inline-container"><b>Jackpot</b></p>
+                                        <img src="/images/sort.png"/>
+                                    </div>
+                                </b-col>
+
+                                <b-col cols="2" class="px-0">
+                                    <div class="possible-win-container">
+                                        <p class="mb-1 inline-container"><b>Potential Win</b></p>
+                                        <img src="/images/sort.png"/>
+                                    </div>
+                                </b-col>
+
+                                <b-col cols="1" class="px-0">
+                                    <div class="time-to-next-hand-container">
+                                        <p class="mb-1 inline-container"><b>N. R</b></p>
+                                        <img src="/images/sort.png"/>
+                                    </div>
+                                </b-col>
+
+                                <b-col cols="3" class="px-0">
+
+                                </b-col>
+                            </b-row>
+                        </div>
+                    </b-list-group-item>
                     <div id="scroll-area">
                         <smooth-scrollbar>
                             <b-list-group>
@@ -17,14 +62,15 @@
                                             <b-col cols="1" class="px-0">
                                                 <div class="connected-players-container">
                                                     <img src="/images/players.png"/>
-                                                    <p class="inline-container">5</p>
+                                                    <p class="inline-container">{{tableGame.current_player}}</p>
                                                 </div>
                                             </b-col>
 
                                             <b-col cols="2" class="px-0">
                                                 <div class="jackpot-container">
                                                     <img src="/images/jackpot.png"/>
-                                                    <p class="inline-container">{{ `2000` | currency(tableGame.currency,
+                                                    <p class="inline-container">{{ tableGame.jackpot |
+                                                        currency(tableGame.currency,
                                                         0,
                                                         { symbolOnLeft: false, spaceBetweenAmountAndSymbol: true })
                                                         }}</p>
@@ -34,7 +80,8 @@
                                             <b-col cols="2" class="px-0">
                                                 <div class="possible-win-container">
                                                     <img src="/images/win.png"/>
-                                                    <p class="inline-container">{{ `30` | currency(tableGame.currency,
+                                                    <p class="inline-container">{{ tableGame.potential_win |
+                                                        currency(tableGame.currency,
                                                         0, {
                                                         symbolOnLeft: false, spaceBetweenAmountAndSymbol: true }) }}</p>
                                                 </div>
@@ -42,16 +89,20 @@
 
                                             <b-col cols="1" class="px-0">
                                                 <div class="time-to-next-hand-container">
-                                                    <Countdown
-                                                            :end="tableGame.time_between_rounds.toString()"></Countdown>
+                                                    <Countdown :gameId="tableGame.id.toString()" :end="tableGame.time_to_started_at.toString()"></Countdown>
                                                 </div>
                                             </b-col>
 
                                             <b-col cols="3" class="px-0">
-                                                <b-button class="red-button" variant="outline-primary">Enter {{
-                                                    tableGame.buy_in | currency(tableGame.currency, 0, { symbolOnLeft:
-                                                    false, spaceBetweenAmountAndSymbol: true }) }}
-                                                </b-button>
+                                                <router-link
+                                                        :to="{ path: '/table-game/' + tableGame.id + '/' + token }">
+                                                    <b-button class="red-button" variant="outline-primary"
+                                                    >{{tableGame.in_play === 1 ? 'VIEW' : 'JOIN'}} {{
+                                                        tableGame.buy_in | currency(tableGame.currency, 0, {
+                                                        symbolOnLeft:
+                                                        false, spaceBetweenAmountAndSymbol: true }) }}
+                                                    </b-button>
+                                                </router-link>
                                             </b-col>
                                         </b-row>
                                     </div>
@@ -61,12 +112,11 @@
                     </div>
                 </b-col>
 
-
                 <b-col v-if="test">
                     <div class="top-wins-container mt-6">
                         <b-list-group>
                             <label>Top Winners</label>
-                            <b-list-group-item v-for="(topWin, index) in topWins" href="#"
+                            <b-list-group-item v-for="(topWin, index) in topWins" href="#" :key="topWin.key"
                                                class="flex-column align-items-start">
                                 <div class="p-1 d-flex w-100 justify-content-between">
                                     <b-row class="w-100">
@@ -92,7 +142,7 @@
                     <div class="top-wins-container mt-6">
                         <b-list-group>
                             <label>History</label>
-                            <b-list-group-item v-for="(h, index) in history" href="#"
+                            <b-list-group-item v-for="(h, index) in history" href="#" :key="h.key"
                                                class="flex-column align-items-start">
                                 <div class="p-1 d-flex w-100 justify-content-between">
                                     <b-row class="w-100">
@@ -127,6 +177,8 @@
     import {APIService} from '../Services/ApiServices';
     import Countdown from '../components/plugins/countdown'
     import {serverBus} from '../main';
+    import {mapGetters} from 'vuex'
+    import _ from "lodash";
 
     const apiService = new APIService();
 
@@ -134,6 +186,13 @@
         name: 'Dashboard',
         data() {
             return {
+
+                token: '',
+                sort: {
+                    field: '',
+                    desc: true
+                },
+                tableGames: {},
                 mainCols: 10,
                 test: false,
                 options: {
@@ -149,7 +208,7 @@
                     allowPageScroll: false,
                     disableFadeOut: true
                 },
-                tableGames: {},
+
                 topWins: [
                     {name: 'Jon', win: '20USD'},
                     {name: 'Smith', win: '120USD'},
@@ -157,7 +216,6 @@
                     {name: 'Ghita', win: '220EUR'},
                     {name: 'Ion', win: '1BTC'},
                 ],
-
                 history: [
                     {name: 'table-1', bet: '10USD', win: '20USD'},
                     {name: 'table-1', bet: '10USD', win: '0'},
@@ -169,7 +227,11 @@
         },
 
         created() {
+            this.$socket.client.emit('joinRoom', 'dashboard');
             let self = this;
+            self.token = this.$route.params.token;
+            //this.$store.dispatch('getGames', {token: this.$route.params.token});
+
             apiService.gameTables(this.$route.params.token).then((data) => {
                 if (data.error)
                     alert('TOKEN EXPIRE!');
@@ -181,20 +243,86 @@
                 this.mainCols = !data.showHideHistory ? 10 : 8;
                 this.test = data.showHideHistory;
             });
+
+            serverBus.$on('updateCountDown', (data) => {
+                this.tableGames[data.gameId].time_to_started_at = data.diff;
+            });
         },
-        computed: {
-            orderedTableGames: function () {
-                return _.orderBy(this.tableGames, 'time_between_rounds')
+
+        sockets: {
+            connect() {
+                console.log("socket connected...")
+            },
+            disconnected() {
+                console.log("socket disconnected...")
             },
 
+            join() {
+                console.log('joinToDashboard');
+            },
 
+            addNewTable(data) {
+                console.log(typeof this.tableGames, data, 'data');
+                this.$set(this.tableGames, data.id, data);
+                /*this.tableGames[data.id] = data;*/
+                //this.tableGames.push(data);
+            },
+
+            updateTable(data) {
+                this.$set(this.tableGames, data.id, data);
+                /*this.tableGames[data.id] = data;*/
+                //this.tableGames.push(data);
+                //this.$forceUpdate();
+            },
+
+            startNewGame() {
+
+            },
+
+            placeBet(data) {
+                let pbDetails = data.gameDetails;
+                let gameId = pbDetails.game_id;
+
+                let tableDetails = this.tableGames[gameId];
+                tableDetails.jackpot = pbDetails.jackpot;
+                tableDetails.potential_win = pbDetails.potential_win;
+                tableDetails.current_player = pbDetails.current_player;
+
+                this.$set(this.tableGames, gameId, tableDetails);
+
+                this.$forceUpdate();
+            },
+        },
+
+        methods: {
+            doSort(field) {
+                if (field === this.sort.field) {
+                    this.sort.desc = !this.sort.desc
+                } else {
+                    this.sort.field = field;
+                    this.sort.desc = true;
+                }
+            }
+        },
+
+        computed: {
+            orderedTableGames: function () {
+                if (!this.sort.field)
+                    return _.orderBy(this.tableGames, 'time_between_rounds')
+
+                return this.tableGames.concat().sort((a, b) => {
+                    if (this.sort.desc) {
+                        return a[this.sort.field] > b[this.sort.field] ? -1 : 1
+                    } else {
+                        return a[this.sort.field] > b[this.sort.field] ? 1 : -1
+                    }
+                })
+            }
         },
         components: {Countdown}
     }
 </script>
 <style scoped>
-
-
     .inline-container {
         display: inline-block;
     }
@@ -203,7 +331,7 @@
         margin-bottom: 0;
     }
 
-    .possible-win-container img, .time-to-next-hand-container img, .connected-players-container img, .jackpot-container img {
+    .title-container img, .possible-win-container img, .time-to-next-hand-container img, .connected-players-container img, .jackpot-container img {
         width: 25px;
         margin-right: 5px;
     }
@@ -285,25 +413,26 @@
     }
 
     #scroll-area {
-        height: 80vh;
+        height: 85vh;
     }
 
 
 </style>
 <style>
-    .scrollbar-track{
-        background: rgba(222, 222, 222, 0.17)!important;
+    .scrollbar-track {
+        background: rgba(222, 222, 222, 0.17) !important;
     }
 
-    .scrollbar-track-y{
+    .scrollbar-track-y {
         top: 0;
-        left: 0!important;
-        width: 3px!important;
+        left: 0 !important;
+        width: 3px !important;
         height: 100%;
     }
 
-    .scrollbar-thumb{
-        width: 3px!important;
-        background: rgba(155, 31, 31, 0.5)!important;
+    .scrollbar-thumb {
+        width: 3px !important;
+        background: rgba(155, 31, 31, 0.5) !important;
     }
 </style>
+

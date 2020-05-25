@@ -2,7 +2,9 @@
     <div id="app" :class="currentRouteName">
         <Head/>
         <!--<HelloWorld msg="Welcome to Your Vue.js App" />-->
-        <router-view class="view box grow"/>
+        <vue-page-transition name="zoom">
+            <router-view class="view box grow"/>
+        </vue-page-transition>
     </div>
 </template>
 

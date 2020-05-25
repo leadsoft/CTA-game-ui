@@ -1,21 +1,24 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import Dashboard from "../src/components/Dashboard";
-import store from '../src/store'
-import VueSlimScroll from 'vue-slimscroll'
-import Vue2Filters from 'vue2-filters'
-import _ from 'lodash';
-import SmoothScrollbar from 'vue-smooth-scrollbar'
-
-Vue.use(SmoothScrollbar)
-Vue.use(VueSlimScroll)
+import store from "../src/store"
+import TableGame from "../src/components/TableGame";
 Vue.use(VueRouter);
-Vue.use(Vue2Filters)
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        {path: '/dashboard/:token', name: 'dashboard', component: Dashboard},
+        {
+            path: '/dashboard/:token', name: 'dashboard', component: Dashboard, meta: {
+                'title': 'Dashboard'
+            }
+        },
+        {
+            path: '/table-game/:gameId/:token', name: 'game', component: TableGame, meta: {
+                'title': 'Table-Game'
+
+            }
+        },
     ]
 });
 

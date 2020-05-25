@@ -1,6 +1,11 @@
 module.exports = {
     // options...
     devServer: {
-        disableHostCheck: true
-    }
-}
+        host: '95.217.20.238',
+        hot: false,
+        disableHostCheck: true,
+        https: false
+    },
+
+    lintOnSave: false
+};

@@ -21,11 +21,15 @@
 
 <script>
     let interval = null;
+    import {serverBus} from '../../main';
     export default {
         name: 'countdown',
 
         props: {
             deadline: {
+                type: String
+            },
+            gameId: {
                 type: String
             },
             end: {
@@ -42,6 +46,7 @@
                 diff: 0
             }
         },
+
         created() {
             if (this.end > 0) {
                 this.diff = this.end;
@@ -79,6 +84,10 @@
                     clearInterval(interval);
                 } else {
                     this.diff = this.diff - 1;
+
+                    if(this.diff.toString() === '5'){
+                        serverBus.$emit('updateCountDown', {gameId: this.gameId, diff: this.diff});
+                    }
                 }
             }
         },
@@ -92,7 +101,6 @@
         },
         methods: {
             start(){
-                console.log('intra', 'value')
                 interval = setInterval(() => {
                     this.now = Math.trunc((new Date()).getTime() / 1000);
                 }, 1000);

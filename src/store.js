@@ -11,7 +11,9 @@ export default new Vuex.Store({
             username: 'LeadSoft',
             currency: 'eur',
             api_id: ''
-        }
+        },
+
+        gameTables: {},
     },
 
     mutations: {
@@ -23,6 +25,13 @@ export default new Vuex.Store({
             state.user[payload.field] = payload.value
         },
 
+        "pb"(data) {
+            console.log('test123', data.gameTables)
+        },
+
+        setGames(state, payload) {
+            state.gameTables = payload
+        },
     },
 
     actions: {
@@ -38,11 +47,34 @@ export default new Vuex.Store({
         updateValue: (context, data) => {
             context.commit('updateUser', data)
         },
+
+        /*GET Game details*/
+
+        getGames: (context, data) => {
+            const apiService = new APIService();
+            apiService.gameTables(data.token).then((response) => {
+
+                console.log(response);
+                context.commit('setGames', response.data)
+
+            });
+
+            /*apiService.gameTables(this.$route.params.token).then((data) => {
+                if (data.error)
+                    alert('TOKEN EXPIRE!');
+
+                self.tableGames = data.data;
+            });*/
+        }
     },
 
     getters: {
         getAuthUser(state) {
             return state.user
+        },
+
+        getGames(state) {
+            return state.gameTables
         },
 
         test(){
