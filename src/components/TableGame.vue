@@ -56,7 +56,7 @@
                         <div v-if="!details.in_play" class="pb-container">
                             <b-button class="btn btn-secondary btn-sm btn-join" v-on:click="placeBet(details.id)">
                                 <span v-if="!placeBetWaiting">
-                                    Place Bet <br> {{ details.buy_in |
+                                    Place Bet {{ details.buy_in |
                                     currency(details.currency,
                                     0,
                                     { symbolOnLeft: false, spaceBetweenAmountAndSymbol: true })
@@ -269,10 +269,10 @@
     .players-container:after {
         content: '';
         position: absolute;
-        top: 10%;
+        top: 0;
         right: 0;
-        height: 80%;
-        border-left: 1px solid rgb(255, 0, 25);
+        height: 100%;
+        border-left: 1px solid rgba(116, 123, 137, 0.38);
     }
 
     .main-container .game-header {
@@ -296,28 +296,25 @@
         height: 60%;
         position: relative;
     }
-
+    .game-header {
+        background-color: rgb(80, 86, 105);
+        line-height: 35px;
+    }
     .game-header:after {
         content: '';
         position: absolute;
         left: 10%;
         bottom: 0;
         width: 80%;
-        border-bottom: 1px solid rgb(255, 0, 25);
     }
 
     .betting-history-container .list-group-item, .players-container .players .list-group-item {
         padding: 0;
         position: relative;
         display: block;
-        background-color: transparent;
-        border-bottom: 1px solid rgb(255, 0, 25);
-        margin-bottom: 11px;
-        border-bottom-left-radius: 30px;
-        border-bottom-right-radius: 30px;
-        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
+        background-color: rgba(100, 108, 123, 0.89);
+        border-bottom: 1px solid rgb(78, 68, 69);
         transition: box-shadow 0.3s ease-in-out;
-        color: #fff;
         font-size: 12px;
     }
 
@@ -336,12 +333,13 @@
     }
 
     .countdown-container {
-        width: 50%;
-        height: 50%;
-        border: 1px solid red;
-        margin-left: 20%;
+       width: 50%;
+        height: 300px;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 1px solid #505669;
         border-radius: 50%;
-        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
+        box-shadow: 0px 12px 17px rgba(255, 0, 25, 0.16);
         position: relative;
         top: 20%;
     }
@@ -368,10 +366,12 @@
         background-color: #505769;
         border-color: #505769;
         float: right;
-        width: 100%;
         position: absolute;
-        right: -4px;
-        top: -4px;
+        width: 200px;
+        top: 0;
+        right: unset;
+        left: 50%;
+        transform: translateX(-50%);
         height: 38px;
         border-radius: 0;
     }
@@ -381,7 +381,7 @@
     .game-container .pb-container {
         position: absolute;
         bottom: 0;
-        transform: translate(83%);
+        width: 100%;
     }
 
     .players {
@@ -400,7 +400,7 @@
     }
 
     .game-container p {
-        color: #fff !important;
+        color: #505669 !important;
         font-size: 40px !important;
     }
 
