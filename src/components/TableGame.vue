@@ -54,7 +54,7 @@
                         </div>
 
                         <div v-if="!details.in_play" class="pb-container">
-                            <b-button class="red-button" variant="outline-primary" v-on:click="placeBet(details.id)">
+                            <b-button class="btn btn-secondary btn-sm btn-join" v-on:click="placeBet(details.id)">
                                 <span v-if="!placeBetWaiting">
                                     Place Bet <br> {{ details.buy_in |
                                     currency(details.currency,
@@ -70,7 +70,7 @@
                         </div>
 
                         <div v-else="" class="pb-container">
-                            <b-button class="red-button" variant="outline-primary" disabled>
+                            <b-button class="btn btn-secondary btn-sm btn-join" disabled>
                                 In Play
                             </b-button>
                         </div>
@@ -364,7 +364,20 @@
         background-color: #f2000654;
         border-color: #a0262e;
     }
-
+    button.btn.btn-join {
+        background-color: #505769;
+        border-color: #505769;
+        float: right;
+        width: 100%;
+        position: absolute;
+        right: -4px;
+        top: -4px;
+        height: 38px;
+        border-radius: 0;
+    }
+    .time-to-next-hand-container .vuejs-countdown .digit {
+    color: #FFC107;
+}
     .game-container .pb-container {
         position: absolute;
         bottom: 0;
