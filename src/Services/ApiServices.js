@@ -27,8 +27,38 @@ export class APIService{
         }).then(response => response);
     }
 
+    gameTopWinners(token) {
+        const url = `${API_URL}/api/get-top-winners`;
+
+        return axios.get(url, {
+            headers: {
+                Authorization: token
+            }
+        }).then(response => response);
+    }
+
+    getLastMyBets(token) {
+        const url = `${API_URL}/api/get-last-my-bets`;
+
+        return axios.get(url, {
+            headers: {
+                Authorization: token
+            }
+        }).then(response => response);
+    }
+
     gameDetails(token, gameId) {
         const url = `${API_URL}/api/get-game-details/` + gameId;
+
+        return axios.get(url, {
+            headers: {
+                Authorization: token
+            }
+        }).then(response => response);
+    }
+
+    gameGameHistory(token, gameId) {
+        const url = `${API_URL}/api/get-game-history/` + gameId;
 
         return axios.get(url, {
             headers: {

@@ -33,7 +33,8 @@
                 type: String
             },
             end: {
-                type: String
+                type: String,
+                default: '10'
             },
             stop: {
                 type: Boolean
@@ -85,7 +86,7 @@
                 } else {
                     this.diff = this.diff - 1;
 
-                    if(this.diff.toString() === '5'){
+                    if(parseInt(this.diff) === 4){
                         serverBus.$emit('updateCountDown', {gameId: this.gameId, diff: this.diff});
                     }
                 }

@@ -8,15 +8,20 @@
 
         <div class="balance-container">
             <b-row>
-                <b-col cols="12">
-                    {{ authUser.balance | currency(authUser.currency,  0, { symbolOnLeft: false, spaceBetweenAmountAndSymbol: true }) }}
+                <b-col cols="12" class="new-win" :class="{active: newWin}">
+                    <b>+</b> {{ newWinVal | currency(authUser.currency, 0, { symbolOnLeft: false,
+                    spaceBetweenAmountAndSymbol: true }) }}
+                </b-col>
+                <b-col cols="12" class="main-balance" :class="{'update-balance': updateBalance}">
+                    {{ authUser.balance | currency(authUser.currency, 0, { symbolOnLeft: false,
+                    spaceBetweenAmountAndSymbol: true }) }}
                 </b-col>
             </b-row>
         </div>
 
         <div class="history-main-container" v-show="showHistoryButton">
             <b-row>
-                <b-col cols="12" >
+                <b-col cols="12">
                     <img v-on:click="showHideHistory()" src="/images/history_white.png" alt="">
                 </b-col>
             </b-row>
@@ -52,6 +57,9 @@
 
         data() {
             return {
+                newWin: false,
+                updateBalance: false,
+                newWinVal: '',
                 showHistory: false,
                 showHistoryButton: true,
                 showHomeLink: !window.location.pathname.includes('dashboard'),
@@ -65,19 +73,37 @@
 
                 console.log($to, $from, 'asdasd');
                 let room = '';
-                if($from.name === 'game' && $from.params.gameId){
+                if ($from.name === 'game' && $from.params.gameId) {
                     console.log('asdasd test123123');
                     room = 'room_' + $from.params.gameId
-                } else if($from.name === 'dashboard'){
+                } else if ($from.name === 'dashboard') {
                     room = 'dashboard';
                 }
 
-                if(room !== '')
+                if (room !== '')
                     this.$socket.client.emit('leaveRoom', room);
             }
         },
 
         sockets: {
+            async updateUserBalance(data) {
+                this.newWinVal = data.balance;
+                if (!this.newWin) {
+                    this.newWin = true;
+
+                    await sleep(1000);
+                    this.$store.dispatch("updateValue", {
+                        field: 'balance',
+                        value: data.balance
+                    });
+                    this.newWinVal = '';
+                    this.newWin = false;
+                    this.updateBalance = true;
+                    await sleep(5000);
+                    this.updateBalance = false;
+                }
+            },
+
             connect() {
                 console.log('connected')
                 //this.$socket.emit('tokenConnection', this.$route.params.token);
@@ -90,27 +116,34 @@
             disconnect() {
                 console.log('socket disconnect')
             }
-        },
+        }
+        ,
 
         computed: {
-            ...mapGetters({
-                authUser: 'getAuthUser'
-            })
-        },
-        components: {
-
-        },
+            ...
+                mapGetters({
+                    authUser: 'getAuthUser'
+                })
+        }
+        ,
+        components: {}
+        ,
         methods: {
             showHideHistory() {
                 this.showHistory = !this.showHistory;
                 serverBus.$emit('showHistory', {showHideHistory: this.showHistory});
-            },
+            }
+            ,
         }
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 </script>
 
 <style scoped>
-    .profile-container{
+    .profile-container {
         position: absolute;
         top: 20px;
         padding: 10px;
@@ -122,7 +155,7 @@
         color: #fff;
     }
 
-    .balance-container{
+    .balance-container {
         position: absolute;
         bottom: 20px;
         padding: 10px;
@@ -134,7 +167,7 @@
         color: #fff;
     }
 
-    .history-main-container{
+    .history-main-container {
         position: absolute;
         bottom: 20px;
         padding: 10px;
@@ -146,7 +179,7 @@
         cursor: pointer;
     }
 
-    .history-main-container:hover{
+    .history-main-container:hover {
         box-shadow: 10px 12px 17px #f8f9fa12;
         border-bottom: 1px solid #f8f9fa;
     }
@@ -162,4 +195,101 @@
         z-index: 9;
     }
 
+    .new-win {
+        position: absolute;
+        top: -309px;
+        opacity: 0;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
+        border-bottom: 1px solid rgb(255, 0, 25);
+        transition: all 1s linear;
+    }
+
+    .new-win.active {
+        -webkit-animation: fadein 1.2s; /* Safari, Chrome and Opera > 12.1 */
+        -moz-animation: fadein 1.2s; /* Firefox < 16 */
+        -ms-animation: fadein 1.2s; /* Internet Explorer */
+        -o-animation: fadein 1.2s; /* Opera < 12.1 */
+        animation: fadein 1.2s;
+        top: 0;
+    }
+
+    @keyframes fadein {
+        0%, 100% {
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+    }
+
+    /* Firefox < 16 */
+    @-moz-keyframes fadein {
+        0%, 100% {
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+    }
+
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes fadein {
+        0%, 100% {
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+    }
+
+    /* Internet Explorer */
+    @-ms-keyframes fadein {
+        0%, 100% {
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+    }
+
+    /* Opera < 12.1 */
+    @-o-keyframes fadein {
+        0%, 100% {
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+    }
+
+
+    .main-balance.update-balance {
+        animation: bounceIn 2s;
+    }
+
+    @-webkit-keyframes bounceIn {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.25);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes bounceIn {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.25);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
 </style>

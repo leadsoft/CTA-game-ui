@@ -14,11 +14,20 @@ export default new Vuex.Store({
         },
 
         gameTables: {},
+
+        game: {
+            draw: true
+        }
+
     },
 
     mutations: {
         setUser(state, payload) {
             state.user = payload
+        },
+
+        setGame(state, payload) {
+            state.game = payload
         },
 
         updateUser(state, payload) {
@@ -40,7 +49,6 @@ export default new Vuex.Store({
             const apiService = new APIService();
             apiService.getUser(token).then((response) => {
                 context.commit('setUser', response.data)
-
             });
         },
 
@@ -77,8 +85,8 @@ export default new Vuex.Store({
             return state.gameTables
         },
 
-        test(){
-            return 1;
+        getGame(state){
+            return state.game;
         }
     }
 });
