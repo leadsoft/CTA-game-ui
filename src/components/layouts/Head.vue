@@ -29,10 +29,10 @@
 
         <div class="home-button-group">
             <b-row>
-                <b-col cols="6" class="no-padding" v-show="showHomeLink">
+                <b-col cols="6" class="no-padding">
                     <div id="home-target" class="home-button">
                         <!--<b-row>-->
-                        <router-link :to="`/dashboard/` + this.$route.params.token">
+                        <router-link :to="`/dashboard/` + this.$route.params.token" :class="{'disabled' : !showHomeLink}">
                             <img src="/images/iconfinder_Home.png"/>
                         </router-link>
                         <!--</b-row>-->
