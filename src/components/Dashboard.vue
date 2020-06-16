@@ -2,7 +2,7 @@
     <div>
         <b-container class="bv-example-row">
             <b-row class="text-center" :class="{'justify-content-md-center': !test}">
-                <b-col :class="{'test-123': test}" class="games-container col-12 col-sm-12 col-md-10">
+                <b-col :class="{'history-active offset-md-1': test}" class="games-container col-12 col-sm-12 col-md-10">
                     <b-list-group-item href="#"
                                        class="flex-column align-items-start table-head">
                         <div class="p-1 d-flex w-100 justify-content-between">
@@ -139,8 +139,9 @@
                     </div>
                 </b-col>
 
-                <b-col v-if="test">
-                    <div class="top-wins-container mt-6" v-if="topWins.length > 0">
+                <b-col v-if="test" class="col-12 col-sm-12 col-md-10 offset-md-1 top-winns-wrap" >
+                   <b-row>
+                    <div class="top-wins-container mt-6 col-12 col-sm-6" v-if="topWins.length > 0">
                         <label>Top Winners</label>
                         <smooth-scrollbar>
                             <b-list-group>
@@ -173,7 +174,7 @@
                         </smooth-scrollbar>
                     </div>
 
-                    <div class="top-wins-container mt-6" v-if="history.length > 0">
+                    <div class="top-wins-container mt-6 col-12 col-sm-6" v-if="history.length > 0">
                         <label>History</label>
                         <smooth-scrollbar>
                             <b-list-group>
@@ -211,6 +212,7 @@
                             </b-list-group>
                         </smooth-scrollbar>
                     </div>
+                    </b-row>
                 </b-col>
             </b-row>
         </b-container>
@@ -483,25 +485,33 @@
     .mt-6 {
         margin-top: 5rem;
     }
-
+    .top-wins-container label {
+        background-color: #5f646c;
+        border-bottom: 1px solid #4e4445;
+        padding: 10px;
+        margin: 0;
+        float: left;
+        font-size: 20px;
+        width: 100%;
+    }
     .top-wins-container p {
         font-size: 12px;
     }
-
+    
     label {
         color: #fff;
         font-size: 14px;
     }
 
     #scroll-area {
-        height: 85vh;
+        /*height: 85vh;*/
     }
 
-
+    
     .top-wins-container {
         height: 350px;
     }
-
+    
 
 </style>
 <style>
