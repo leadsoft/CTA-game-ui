@@ -363,7 +363,7 @@
                 if (!this.sort.field)
                     return _.orderBy(this.tableGames, 'time_between_rounds');
 
-                return this.tableGames.sort((a, b) => {
+                return this.tableGames.concat().sort((a, b) => {
                     if (this.sort.desc) {
                         return a[this.sort.field] > b[this.sort.field] ? -1 : 1
                     } else {

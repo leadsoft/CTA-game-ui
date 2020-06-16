@@ -193,8 +193,8 @@
                 self.players = data.data.players;
 
                 console.log(self.details.time_to_started_at, typeof self.details.time_to_started_at);
-                /*if(self.details.time_to_started_at < 5)
-                    self.game.disabled_place_bet = true;*/
+                if(self.details.time_to_started_at < 5)
+                    self.game.disabled_place_bet = true;
             });
 
             serverBus.$on('updateCountDown', (data) => {
@@ -288,7 +288,7 @@
                             this.$set(self.players[prevPlayer], 'isSelected', false);
                             break;
                         } else if(i === Object.keys(this.players).length - 1){
-                                i = 0;
+                            i = 0;
                         } else {
                             i++;
                         }

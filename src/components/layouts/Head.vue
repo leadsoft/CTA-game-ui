@@ -145,26 +145,25 @@
 <style scoped>
     .profile-container {
         position: absolute;
-        top: 20px;
-        padding: 10px;
-        right: 20px;
-        border-bottom-right-radius: 20px;
-        border-bottom-left-radius: 20px;
-        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
-        border-bottom: 1px solid rgb(255, 0, 25);
+        top: 5px;
+        padding: 5px 10px;
+        right: 5px;
+        border-bottom: 1px solid #505769;
         color: #fff;
+        background-color: #505769;
     }
 
     .balance-container {
         position: absolute;
-        bottom: 20px;
-        padding: 10px;
-        left: 20px;
-        border-bottom-right-radius: 20px;
-        border-bottom-left-radius: 20px;
-        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
-        border-bottom: 1px solid rgb(255, 0, 25);
-        color: #fff;
+    bottom: 20px;
+    padding: 10px;
+    left: 20px;
+    box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
+    border-bottom: 1px solid rgb(255, 0, 25);
+    color: #fff;
+    background-color: #505769;
+    border-color: #505769;
+        cursor: pointer;
     }
 
     .history-main-container {
@@ -172,10 +171,8 @@
         bottom: 20px;
         padding: 10px;
         right: 20px;
-        border-bottom-right-radius: 20px;
-        border-bottom-left-radius: 20px;
-        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
-        border-bottom: 1px solid rgb(255, 0, 25);
+        background-color: #505769;
+        border-color: #505769;
         cursor: pointer;
     }
 
