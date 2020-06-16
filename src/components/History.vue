@@ -112,47 +112,36 @@
         position: relative;
         padding: 0 10px;
     }
-
+    .suit:before {
+        font-size: 21px;
+        position: absolute;
+        right: 0;
+        top: 2px;
+        line-height: 10px;
+    }
     .suit.d:before {
         content: "♦";
         color: #ff0000;
-        font-size: 30px;
-        position: absolute;
-        right: 0;
-        top: 0;
-        line-height: 10px;
-
+        font-size: 26px;
+        right: -1px;
     }
 
     .suit.h:before {
         content: "♥";
         color: #ff0000;
-        font-size: 30px;
-        position: absolute;
-        right: 0;
-        top: 0;
-        line-height: 10px;
-
+        font-size: 23px;
+        right: -1px;
     }
 
     .suit.c:before {
         content: "♣";
         color: #fff;
-        font-size: 30px;
-        position: absolute;
-        right: 0;
-        top: 0;
-        line-height: 10px;
     }
 
     .suit.s:before {
         content: "♠";
         color: #fff;
-        font-size: 30px;
-        position: absolute;
-        right: 0;
-        top: 0;
-        line-height: 10px;
+        font-size: 22px;
     }
 
     .betting-history-container {
@@ -172,12 +161,8 @@
         padding: 0;
         position: relative;
         display: block;
-        background-color: transparent;
-        border-bottom: 1px solid rgb(255, 0, 25);
-        margin-bottom: 11px;
-        border-bottom-left-radius: 30px;
-        border-bottom-right-radius: 30px;
-        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
+        background-color: rgba(100, 108, 123, 0.89);
+        border-bottom: 1px solid rgb(78, 68, 69);
         transition: box-shadow 0.3s ease-in-out;
         color: #fff;
         font-size: 12px;

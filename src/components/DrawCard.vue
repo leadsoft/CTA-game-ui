@@ -184,7 +184,8 @@
         width: 0;
         height: 0;
         position: relative;
-        margin: 0 0 0 25%;
+        left: calc(50% - 140px);
+        margin-top: 0px;
     }
 
     .spread > .card {

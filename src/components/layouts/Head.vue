@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="header-container">
         <div class="profile-container">
             <b-row>
                 <b-col cols="12">{{authUser.username}}</b-col>
@@ -143,9 +143,16 @@
 </script>
 
 <style scoped>
+    .header-container {
+        background-color: #505669;
+        display: block;
+        height: 50px;
+        width: 100%;
+        position: fixed;
+    }
     .profile-container {
         position: absolute;
-        top: 5px;
+        top: 7px;
         padding: 5px 10px;
         right: 5px;
         border-bottom: 1px solid #505769;
@@ -155,19 +162,17 @@
 
     .balance-container {
         position: absolute;
-    bottom: 20px;
-    padding: 10px;
-    left: 20px;
-    box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
-    border-bottom: 1px solid rgb(255, 0, 25);
-    color: #fff;
-    background-color: #505769;
-    border-color: #505769;
+        top: 3px;
+        padding: 10px;
+        left: 90px;
+        color: #fff;
+        background-color: #505769;
+        border-bottom: 3px solid rgb(255, 0, 25);
         cursor: pointer;
     }
 
     .history-main-container {
-        position: absolute;
+        position: fixed;
         bottom: 20px;
         padding: 10px;
         right: 20px;
@@ -182,12 +187,11 @@
     }
 
     .home-button-group {
-        width: 80px;
         border-radius: 5px;
         position: absolute;
-        top: 20px;
+        top: 0;
         left: 20px;
-        padding: 10px;
+        padding: 10px 0;
         font-weight: bold;
         z-index: 9;
     }

@@ -357,14 +357,22 @@
     .players-container:after {
         content: '';
         position: absolute;
-        top: 10%;
+        top: 0;
         right: 0;
-        height: 80%;
-        border-left: 1px solid rgb(255, 0, 25);
+        height: 100%;
+        border-left: 1px solid rgba(116, 123, 137, 0.25);
     }
-
+    .players-container .players {
+        margin-top: 0;
+    }
     .main-container .game-header {
-        height: 5%;
+        height: auto;
+        position: relative;
+        display: block;
+        background-color: rgba(100, 108, 123, 0.89);
+        border-bottom: 1px solid rgb(78, 68, 69);
+        transition: box-shadow 0.3s ease-in-out;
+        padding: 10px 0;
     }
 
     .betting-history-container {
@@ -376,43 +384,30 @@
         position: absolute;
         top: 0px;
         left: 10%;
-        width: 80%;
+        width: 100%;
         border-top: 1px solid rgb(255, 0, 25);
     }
-
     .game-container {
         height: 60%;
         position: relative;
     }
-
-    .game-header:after {
-        content: '';
-        position: absolute;
-        left: 10%;
-        bottom: 0;
-        width: 80%;
-        border-bottom: 1px solid rgb(255, 0, 25);
-    }
-
     .betting-history-container .list-group-item, .players-container .players .list-group-item {
         padding: 0;
         position: relative;
         display: block;
-        background-color: transparent;
-        border-bottom: 1px solid rgb(255, 0, 25);
-        margin-bottom: 11px;
-        border-bottom-left-radius: 30px;
-        border-bottom-right-radius: 30px;
-        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
+        background-color: rgba(100, 108, 123, 0.89);
+        border-bottom: 1px solid rgb(78, 68, 69);
         transition: box-shadow 0.3s ease-in-out;
         color: #fff;
         font-size: 12px;
     }
-
+    
     .inline-container {
         display: inline-block;
     }
-
+    .players-container .players {
+        margin-top: 0;
+    }
     .game-tables-container img {
         width: 25px;
         margin-right: 5px;
@@ -421,6 +416,7 @@
     .game-tables-container p {
         color: #fff;
         font-size: 12px;
+        margin: 0;
     }
 
     .card-container {
@@ -436,48 +432,77 @@
 
     .countdown-container {
         background: #010101de;
-        /*width: 290px;
-        height: 290px;*/
-        /*border: 1px solid red;*/
-        margin-left: calc((100% - 290px) / 2);
-        /*border-radius: 50%;*/
-        /*box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);*/
         position: absolute;
-
         border-bottom-right-radius: 20px;
         border-bottom-left-radius: 20px;
-        box-shadow: 10px 12px 17px rgba(255, 0, 25, 0.16);
-        border-bottom: 1px solid rgb(255, 0, 25);
+        width: 150px;
         z-index: 2;
-        right: 30px;
-        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 13px;
     }
-
     .red-button {
-        padding: 0 8px;
-        color: #ff0019;
+        padding: 0;
+        color: #ffffff;
         border-color: #ff0019;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        background-color: red;
+        box-shadow: 5px 5px 0 0 #bf0404, -5px 5px 0 0 #BF0404;
         width: 200px;
         height: 80px;
-        font-size: 25px;
+        font-size: 20px;
+        position: relative;
+        text-transform: uppercase;
+        transition: .5s;
     }
-
+    .red-button:before {
+        background-color: #bf0504;
+        border-top-right-radius: 9px;
+        content: '';
+        width: 5px;
+        height: 10px;
+        position: absolute;
+        right: -6px;
+        top: 0;
+    }
+    .red-button:after {
+        background-color: #bf0504;
+        border-top-left-radius: 5px;
+        transform: rotate(-0deg);
+        content: '';
+        width: 5px;
+        height: 10px;
+        position: absolute;
+        left: -6px;
+        top: 0px;
+    }
+    .red-button:focus {
+        box-shadow: 5px 5px 0 0 #bf0404, -5px 5px 0 0 #BF0404;
+    }
     .red-button:disabled {
-        color: #fff;
+        color: #bbb;
+        background-color: red;
     }
-
+    .red-button:disabled:hover {
+        background-color: red;
+    }
+    .red-button:not(:disabled):not(.disabled):active, .red-button:not(:disabled):not(.disabled):active:focus {
+        box-shadow: 5px 5px 0 0 #bf0404, -5px 5px 0 0 #BF0404;
+        background-color: red;
+    }
     .red-button:hover {
         color: #fff;
-        background-color: #f2000654;
-        border-color: #a0262e;
+        background-color: #fd6603;
+        border-color: #fd6603;
     }
-
+    
     .game-container .pb-container {
         position: absolute;
+        transform: translateX(-50%);
         bottom: 10%;
         width: 290px;
-        margin-left: calc((100% - 290px) / 2);
-
+        left: 50%;
     }
 
     .float-right {
@@ -504,24 +529,22 @@
     }
 </style>
 <style>
-    .game-container .vuejs-countdown li:last-child:after {
-        content: ":";
-        position: absolute;
-        top: 10px;
-        left: -78px;
-        font-size: 25px;
-        color: #fff;
+    .countdown-container ul li {
+        margin-top: -2px;
     }
-
-    .game-container p {
+    .countdown-container ul li p {
         color: #fff !important;
-        font-size: 40px !important;
+        font-size: 16px !important;
+        margin: 0 3px;
     }
 
-    .game-container .vuejs-countdown {
-        margin-top: 23%;
+    .game-container .countdown-container .vuejs-countdown {
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
-
+    .game-container .countdown-container .vuejs-countdown li p {
+        display: inline-block;
+    }
     .vm--overlay {
         background: rgba(0, 0, 0, 0.7) !important;
     }
