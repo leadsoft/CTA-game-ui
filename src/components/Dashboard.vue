@@ -2,7 +2,7 @@
     <div>
         <b-container class="bv-example-row">
             <b-row class="text-center" :class="{'justify-content-md-center': !test}">
-                <b-col :cols="mainCols" :class="{'test-123': test}" class="games-container col-12 col-sm-12 col-md-10">
+                <b-col :class="{'test-123': test}" class="games-container col-12 col-sm-12 col-md-10">
                     <b-list-group-item href="#"
                                        class="flex-column align-items-start table-head">
                         <div class="p-1 d-flex w-100 justify-content-between">
@@ -236,7 +236,7 @@
                     desc: true
                 },
                 tableGames: {},
-                mainCols: 10,
+
                 test: false,
                 options: {
                     height: '85vh',
@@ -289,7 +289,7 @@
             });
 
             serverBus.$on('showHistory', (data) => {
-                this.mainCols = !data.showHideHistory ? 10 : 8;
+                /*this.mainCols = !data.showHideHistory ? 10 : 8;*/
                 this.test = data.showHideHistory;
             });
 
