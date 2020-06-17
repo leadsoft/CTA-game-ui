@@ -15,42 +15,42 @@
                                 </b-col>
 
                                 <b-col cols="1" class="px-0">
-                                    <div class="connected-players-container">
+                                    <div class="connected-players-container" v-on:click="doSort('current_player')">
                                         <p class="mb-1 inline-container"><b>No.</b></p>
                                         <img src="/images/sort.png"/>
                                     </div>
                                 </b-col>
 
                                 <b-col cols="2" class="px-0">
-                                    <div class="jackpot-container">
+                                    <div class="jackpot-container" v-on:click="doSort('jackpot')">
                                         <p class="mb-1 inline-container"><b>Jackpot</b></p>
                                         <img src="/images/sort.png"/>
                                     </div>
                                 </b-col>
 
                                 <b-col cols="2" class="px-0">
-                                    <div class="possible-win-container">
+                                    <div class="possible-win-container" v-on:click="doSort('potential_win')">
                                         <p class="mb-1 inline-container"><b>Win</b></p>
                                         <img src="/images/sort.png"/>
                                     </div>
                                 </b-col>
 
                                 <b-col cols="1" class="px-0">
-                                    <div class="time-to-next-hand-container">
+                                    <div class="time-to-next-hand-container" v-on:click="doSort('time_to_started_at')">
                                         <p class="mb-1 inline-container"><b>Time</b></p>
                                         <img src="/images/sort.png"/>
                                     </div>
                                 </b-col>
 
                                 <b-col cols="1" class="px-0">
-                                    <div class="time-to-next-hand-container">
+                                    <div class="time-to-next-hand-container" v-on:click="doSort('count_hands')">
                                         <p class="mb-1 inline-container"><b>Round</b></p>
                                         <img src="/images/sort.png"/>
                                     </div>
                                 </b-col>
 
                                 <b-col cols="1" class="px-0">
-                                    <div class="time-to-next-hand-container">
+                                    <div class="time-to-next-hand-container" v-on:click="doSort('buy_in')">
                                         <p class="mb-1 inline-container"><b>Price</b></p>
                                         <img src="/images/sort.png"/>
                                     </div>
@@ -146,7 +146,7 @@
                         <smooth-scrollbar>
                             <b-list-group>
 
-                                <b-list-group-item v-for="(topWin, index) in topWins" href="#" :key="topWin.key"
+                                <b-list-group-item v-for="(topWin, index) in orderedTopWin" href="#" :key="topWin.key"
                                                    class="flex-column align-items-start">
                                     <div class="p-1 d-flex w-100 justify-content-between">
                                         <b-row class="w-100">
@@ -173,13 +173,12 @@
                             </b-list-group>
                         </smooth-scrollbar>
                     </div>
-
-                    <div class="top-wins-container mt-6 col-12 col-sm-6" v-if="history.length > 0">
+                    <div class="top-wins-container mt-6 col-12 col-sm-6" v-if="Object.keys(history).length > 0">
                         <label>History</label>
                         <smooth-scrollbar>
                             <b-list-group>
 
-                                <b-list-group-item v-for="(h, index) in history" href="#" :key="h.key"
+                                <b-list-group-item v-for="(h, index) in orderedHistory" href="#" :key="h.key"
                                                    class="flex-column align-items-start">
                                     <div class="p-1 d-flex w-100 justify-content-between">
                                         <b-row class="w-100">
@@ -204,6 +203,13 @@
                                                         currency(h.currency,
                                                         0, {
                                                         symbolOnLeft: false, spaceBetweenAmountAndSymbol: true }) }}</p>
+                                                </div>
+                                            </b-col>
+                                            <b-col cols>
+                                                <div class="">
+                                                    <p v-if="h.betStatus === 1" class="win-bet">Win</p>
+                                                    <p v-if="h.betStatus === 0" class="lose-bet">Lose</p>
+                                                    <p v-if="h.betStatus === -1" class="pending-bet">Pending</p>
                                                 </div>
                                             </b-col>
                                         </b-row>
@@ -234,7 +240,7 @@
 
                 token: '',
                 sort: {
-                    field: '',
+                    field: 'name',
                     desc: true
                 },
                 tableGames: {},
@@ -260,11 +266,9 @@
         },
 
         created() {
-            console.log('ajunge aici');
             this.$socket.client.emit('joinRoom', 'dashboard');
             let self = this;
             self.token = this.$route.params.token;
-            //this.$store.dispatch('getGames', {token: this.$route.params.token});
 
             apiService.gameTables(this.$route.params.token).then((data) => {
                 if (data.error)
@@ -286,8 +290,10 @@
                 if (data.error)
                     alert('TOKEN EXPIRE!');
 
-                if (!data.data.error)
+                if (!data.data.error){
                     self.history = data.data;
+                    self.$forceUpdate();
+                }
             });
 
             serverBus.$on('showHistory', (data) => {
@@ -296,8 +302,12 @@
             });
 
             serverBus.$on('updateCountDown', (data) => {
-                if (this.tableGames[data.gameId])
+
+                if (this.tableGames[data.gameId]){
                     this.tableGames[data.gameId].time_to_started_at = data.diff;
+                    this.$forceUpdate();
+                }
+
             });
         },
 
@@ -305,12 +315,10 @@
             connect() {
                 console.log("socket connected...")
             },
-            disconnected() {
-                console.log("socket disconnected...")
-            },
 
-            join() {
-                console.log('joinToDashboard');
+            updateTopWin(data){
+                this.topWins.unshift(data);
+                this.topWins.pop();
             },
 
             addNewTable(data) {
@@ -321,15 +329,16 @@
             },
 
             updateTable(data) {
-                console.log(data, 'updateTable');
-                this.$set(this.tableGames, data.id, data);
-                /*this.tableGames[data.id] = data;*/
-                //this.tableGames.push(data);
-                //this.$forceUpdate();
+
+                this.$delete(this.tableGames, data.id);
+                let self = this;
+                self.tableGames[data.id.toString()] = data;
+                self.$forceUpdate();
             },
 
-            startNewGame() {
+            updateUserHistory(data){
 
+                this.$set(this.history, data.betId, data);
             },
 
             placeBet(data) {
@@ -361,23 +370,33 @@
         computed: {
 
             orderedTableGames: function () {
-                console.log('test123');
-                if (!this.sort.field)
-                    return _.orderBy(this.tableGames, 'time_between_rounds');
+                return _.orderBy(this.tableGames, this.sort.field, this.sort.desc ? "desc" : "asc")
+            },
 
-                return this.tableGames.concat().sort((a, b) => {
-                    if (this.sort.desc) {
-                        return a[this.sort.field] > b[this.sort.field] ? -1 : 1
-                    } else {
-                        return a[this.sort.field] > b[this.sort.field] ? 1 : -1
-                    }
-                })
+            orderedTopWin: function () {
+                return _.orderBy(this.topWins, 'win', "desc")
+            },
+
+            orderedHistory: function () {
+                return _.orderBy(this.history, 'created_at', "desc")
             }
         },
         components: {Countdown}
     }
 </script>
 <style scoped>
+    .win-bet{
+        color: #00ff00;
+    }
+
+    .lose-bet{
+        color: #ff0000;
+    }
+
+    /*.pending-bet{
+
+    }*/
+
     .inline-container {
         display: inline-block;
     }
